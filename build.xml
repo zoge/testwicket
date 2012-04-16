@@ -16,7 +16,7 @@
    specific language governing permissions and limitations
    under the License.    
 -->
-<project name="hello-ivy" default="run" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="testwicket" default="run" xmlns:ivy="antlib:org.apache.ivy.ant">
     <!-- some variables used -->
     <property name="lib.dir" value="lib" />
     <property name="build.dir" value="build" />
@@ -51,11 +51,25 @@
     <target name="run" depends="resolve" description="--> compile and run the project">
         <mkdir dir="${build.dir}" />
         <javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="lib.path.id" />
-    	<property name="msg" value="hello ivy !"/>
-        <java classpathref="run.path.id" classname="example.Hello">
-        	<arg value="-message"/>
-        	<arg value="${msg}"/>
-    	</java>
+    	
+    	<copy todir="build">
+    	    <fileset dir="src/test/resource"
+    	             includes="*.*" />
+    	</copy>
+
+    	<mkdir dir="${build.dir}/webapp" />
+    	<mkdir dir="${build.dir}/webapp/WEB-INF" />
+    	<copy todir="build/webapp/WEB-INF">
+    	    <fileset dir="src/main/resources/webapp/WEB-INF"
+    	             includes="*.*" />
+    	</copy>
+    	<copy todir="build/webapp">
+    	    	    <fileset dir="src/main/resources/webapp"
+    	    	             includes="*.*" />
+    	</copy>
+    	
+    	<java classpathref="run.path.id" classname="net.dogadvert.Start">
+        </java>
     </target>
 
     <!-- ================================= 
